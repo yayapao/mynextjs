@@ -31,9 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main>
-            <QueryProvider>{children}</QueryProvider>
-          </main>
+          <QueryProvider>{children}</QueryProvider>
           <Toaster position="top-center" duration={3000} />
         </ThemeProvider>
       </body>
