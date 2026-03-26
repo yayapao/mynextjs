@@ -109,12 +109,7 @@ export const defaultMetadata: Metadata = {
   /** Favicon and app icon configuration */
   icons: {
     icon: '/favicon.ico', // Standard favicon
-    shortcut: '/favicon-16x16.png', // Shortcut icon (browser tabs)
-    apple: '/apple-touch-icon.png', // Apple touch icon (iOS home screen)
   },
-
-  /** Web app manifest - enables PWA features and customizes how the app appears when installed */
-  manifest: '/site.webmanifest',
 };
 
 export { siteConfig };
