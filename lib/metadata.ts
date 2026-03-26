@@ -23,12 +23,8 @@ const siteConfig = {
   /** Your site's production URL (no trailing slash) */
   url: 'https://yoursite.com',
 
-  /** Open Graph image URL - shown when sharing on social media (1200x630px recommended) */
-  ogImage: 'https://yoursite.com/og.jpg',
-
   /** External links */
   links: {
-    twitter: 'https://twitter.com/yourusername',
     github: 'https://github.com/yourusername/mynextjs',
   },
 };
@@ -84,14 +80,6 @@ export const defaultMetadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200, // Recommended dimensions for social sharing
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
   },
 
   /**
@@ -102,7 +90,6 @@ export const defaultMetadata: Metadata = {
     card: 'summary_large_image', // Card type (summary, summary_large_image, player, app)
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
     creator: '@yourusername', // Your Twitter handle
   },
 
