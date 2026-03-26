@@ -2,9 +2,10 @@ import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'sonner';
 import './globals.css';
 import Header from '@/components/build-in/header';
-import QueryProvider from '@/components/provider/query';
+import QueryProvider from '@/lib/providers/query';
 import { defaultMetadata } from '@/lib/metadata';
 import { readConfig } from '@/lib/config';
+import GlobalProvider from '@/lib/providers/global';
 
 export const metadata = defaultMetadata;
 
@@ -15,7 +16,6 @@ export default async function RootLayout({
 }>) {
   // Fetch initial theme from server-side config
   const config = await readConfig();
-  console.log('Initial theme:', config);
   const initialTheme = config.theme;
 
   return (
@@ -29,11 +29,13 @@ export default async function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme={initialTheme}
-          // enableSystem
+          enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <QueryProvider>{children}</QueryProvider>
+          <GlobalProvider value={{ user_info: { name: 'Young Star' } }}>
+            <Header />
+            <QueryProvider>{children}</QueryProvider>
+          </GlobalProvider>
           <Toaster position="top-center" duration={3000} />
         </ThemeProvider>
       </body>
