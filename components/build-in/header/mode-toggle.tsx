@@ -4,6 +4,7 @@ import DarkModeToggleButton from '@/components/build-in/button/dark-mode-toggle-
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { patchConfig } from '@/lib/requests/config';
+import { useMounted } from '@/hooks';
 
 /**
  * Theme toggle component with API-based persistence
@@ -12,6 +13,7 @@ import { patchConfig } from '@/lib/requests/config';
  */
 export default function ModeToggle() {
   const { theme, setTheme } = useTheme();
+  const mounted = useMounted();
 
   // Toggle between light and dark theme
   const toggleTheme = async () => {
@@ -29,7 +31,7 @@ export default function ModeToggle() {
       darkIcon={<Moon className="size-6" />}
       lightIcon={<Sun className="size-6" />}
       onClick={toggleTheme}
-      theme={theme}
+      theme={mounted ? theme : 'light'} // Avoid hydration mismatch
     />
   );
 }
