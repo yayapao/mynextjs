@@ -1,15 +1,11 @@
-import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'sonner';
 import './globals.css';
 import Header from '@/components/build-in/header';
 import QueryProvider from '@/components/provider/query';
+import { defaultMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'mynextjs',
-  description:
-    'A modern Next.js starter template built with the latest features and best practices for scalable web applications.',
-};
+export const metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
