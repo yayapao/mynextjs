@@ -15,9 +15,6 @@ const CONFIG_PATH = path.join(process.cwd(), 'data', 'config.json');
 /** Default configuration - used when file doesn't exist or is invalid */
 const DEFAULT_CONFIG: UserConfig = {
   theme: 'light',
-  language: 'en',
-  notifications: true,
-  sidebar: 'expanded',
 };
 
 /**

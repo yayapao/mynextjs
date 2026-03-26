@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import type { UserConfig, PartialUserConfig } from '@/lib/types/config';
+import type { UserConfig, PartialUserConfig, CommonResponse } from '@/lib/types/config';
 
 /**
  * Hook for managing user configuration via API
@@ -40,11 +40,11 @@ export function useConfig(): [
     const loadConfig = async () => {
       try {
         const response = await fetch('/api/config');
-        const result = await response.json();
+        const result: CommonResponse<UserConfig> = await response.json();
 
         if (!mounted) return;
 
-        if (result.success && result.data) {
+        if (result.code === 200 && result.data) {
           setConfig(result.data);
           setError(null);
         } else {
@@ -81,9 +81,9 @@ export function useConfig(): [
           body: JSON.stringify(updates),
         });
 
-        const result = await response.json();
+        const result: CommonResponse<UserConfig> = await response.json();
 
-        if (result.success && result.data) {
+        if (result.code === 200 && result.data) {
           setConfig(result.data);
           setError(null);
         } else {
