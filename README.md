@@ -46,7 +46,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 │   └── sitemap.ts  # SEO sitemap
 ├── components/     # Reusable UI components
 │   ├── ui/         # Shadcn/ui components
-│   └── examples/   # Example components (forms, etc.)
 ├── hooks/          # Custom React hooks
 ├── lib/            # Utility functions
 │   ├── validations/ # Zod schemas
@@ -81,19 +80,23 @@ npm run start
 ## 📚 Key Features & Examples
 
 ### Form Validation
+
 See [example-login-form.tsx](components/examples/example-login-form.tsx) for React Hook Form + Zod integration.
 
 ### Custom Hooks
+
 - `useMounted` - Prevent hydration mismatches
 - `useMediaQuery` - Responsive media queries
 - `useLocalStorage` - Sync state with localStorage
 
 ### SEO Configuration
+
 - Metadata configured in [lib/metadata.ts](lib/metadata.ts)
 - Dynamic sitemap at `/sitemap.xml`
 - Robots.txt at `/robots.txt`
 
 ### Error Handling
+
 - App-level error boundary ([error.tsx](app/error.tsx))
 - Global error handler ([global-error.tsx](app/global-error.tsx))
 - 404 page ([not-found.tsx](app/not-found.tsx))
