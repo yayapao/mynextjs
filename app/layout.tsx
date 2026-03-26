@@ -4,25 +4,31 @@ import './globals.css';
 import Header from '@/components/build-in/header';
 import QueryProvider from '@/components/provider/query';
 import { defaultMetadata } from '@/lib/metadata';
+import { readConfig } from '@/lib/config';
 
 export const metadata = defaultMetadata;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch initial theme from server-side config
+  const config = await readConfig();
+  console.log('Initial theme:', config);
+  const initialTheme = config.theme;
+
   return (
     <html
       lang="en"
-      className="light"
-      style={{ colorScheme: 'light' }}
+      className={initialTheme}
+      style={{ colorScheme: initialTheme }}
       suppressHydrationWarning
     >
       <body className={`antialiased min-h-screen`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme={initialTheme}
           enableSystem
           disableTransitionOnChange
         >

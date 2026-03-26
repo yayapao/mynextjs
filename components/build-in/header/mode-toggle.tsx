@@ -3,30 +3,26 @@
 import DarkModeToggleButton from '@/components/build-in/button/dark-mode-toggle-button';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useLocalStorage } from '@/hooks';
-import { useEffect } from 'react';
+import { patchConfig } from '@/lib/requests/config';
 
 /**
- * Theme toggle component with proper hydration handling
+ * Theme toggle component with API-based persistence
  *
- * Uses useMounted to prevent hydration mismatches when the theme
- * is loaded from browser storage and may differ between server/client.
+ * Updates theme preference via API route to persist on server-side.
  */
 export default function ModeToggle() {
-  const [localTheme, setLocalTheme] = useLocalStorage('theme', 'light');
   const { theme, setTheme } = useTheme();
 
   // Toggle between light and dark theme
-  const toggleTheme = () => {
+  const toggleTheme = async () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setLocalTheme(newTheme);
-  };
 
-  useEffect(() => {
-    if (localTheme) {
-      setTheme(localTheme);
-    }
-  }, [localTheme, setTheme]);
+    // Update local theme immediately for instant feedback
+    setTheme(newTheme);
+
+    // Persist to server via API
+    patchConfig({ theme: newTheme });
+  };
 
   return (
     <DarkModeToggleButton
