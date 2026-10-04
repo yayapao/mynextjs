@@ -16,8 +16,8 @@ export default function Logo() {
     <Image
       src={theme === 'dark' ? '/dark-logo.png' : '/logo.png'}
       alt="logo"
-      width={42}
-      height={42}
+      width={28}
+      height={28}
     />
   );
 }

@@ -6,6 +6,9 @@ import QueryProvider from '@/lib/providers/query';
 import { defaultMetadata } from '@/lib/metadata';
 import { readConfig } from '@/lib/config';
 import GlobalProvider from '@/lib/providers/global';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { MotionConfig } from 'motion/react';
+import { connection } from 'next/server';
 
 export const metadata = defaultMetadata;
 
@@ -14,13 +17,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch initial theme from server-side config
+  await connection();
   const config = await readConfig();
   const initialTheme = config.theme;
 
   return (
     <html
-      lang="en"
+      lang="zh-CN"
       className={initialTheme}
       style={{ colorScheme: initialTheme }}
       suppressHydrationWarning
@@ -32,11 +35,19 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <GlobalProvider value={{ user_info: { name: 'Young Star' } }}>
-            <Header />
-            <QueryProvider>{children}</QueryProvider>
-          </GlobalProvider>
-          <Toaster position="top-center" duration={3000} />
+          <MotionConfig reducedMotion="user">
+            <TooltipProvider delayDuration={300}>
+              <GlobalProvider>
+                <Header />
+                <QueryProvider>
+                  <main id="main-content" className="min-w-0">
+                    {children}
+                  </main>
+                </QueryProvider>
+              </GlobalProvider>
+              <Toaster position="top-center" duration={3000} />
+            </TooltipProvider>
+          </MotionConfig>
         </ThemeProvider>
       </body>
     </html>

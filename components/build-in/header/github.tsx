@@ -1,18 +1,21 @@
 'use client';
 
-import { CatIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { GithubIcon } from '@animateicons/react/lucide/github-icon';
+import { AnimatedIconButton } from '@/components/ui/animated-icon-button';
 
 export default function GithubButton() {
   return (
-    <Button
+    <AnimatedIconButton
+      icon={GithubIcon}
+      label="GitHub 仓库"
       variant="ghost"
-      size="icon"
       onClick={() =>
-        window.open('https://github.com/yayapao/mynextjs', '_blank')
+        window.open(
+          'https://github.com/yayapao/mynextjs',
+          '_blank',
+          'noopener,noreferrer'
+        )
       }
-    >
-      <CatIcon />
-    </Button>
+    />
   );
 }

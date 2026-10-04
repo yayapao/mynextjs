@@ -1,37 +1,40 @@
 'use client';
 
-import DarkModeToggleButton from '@/components/build-in/button/dark-mode-toggle-button';
-import { Moon, Sun } from 'lucide-react';
+import { MoonIcon } from '@animateicons/react/lucide/moon-icon';
+import { SunIcon } from '@animateicons/react/lucide/sun-icon';
+import { AnimatedIconButton } from '@/components/ui/animated-icon-button';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { useTheme } from 'next-themes';
 import { patchConfig } from '@/lib/requests/config';
 import { useMounted } from '@/hooks';
 
-/**
- * Theme toggle component with API-based persistence
- *
- * Updates theme preference via API route to persist on server-side.
- */
 export default function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const mounted = useMounted();
+  const [saving, setSaving] = useState(false);
+  const dark = mounted && resolvedTheme === 'dark';
 
-  // Toggle between light and dark theme
-  const toggleTheme = async () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-
-    // Update local theme immediately for instant feedback
-    setTheme(newTheme);
-
-    // Persist to server via API
-    patchConfig({ theme: newTheme });
-  };
+  async function toggleTheme() {
+    const previous = dark ? 'dark' : 'light';
+    const next = dark ? 'light' : 'dark';
+    setTheme(next);
+    setSaving(true);
+    const result = await patchConfig({ theme: next });
+    setSaving(false);
+    if (result.code !== 0) {
+      setTheme(previous);
+      toast.error('主题保存失败');
+    }
+  }
 
   return (
-    <DarkModeToggleButton
-      darkIcon={<Moon className="size-6" />}
-      lightIcon={<Sun className="size-6" />}
+    <AnimatedIconButton
+      icon={dark ? SunIcon : MoonIcon}
+      label={dark ? '切换浅色主题' : '切换深色主题'}
+      variant="ghost"
       onClick={toggleTheme}
-      theme={mounted ? theme : 'light'} // Avoid hydration mismatch
+      disabled={!mounted || saving}
     />
   );
 }
