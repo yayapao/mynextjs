@@ -28,6 +28,15 @@ The upgrade generates `desktop/`. Run `npm run desktop:build` to package the app
 
 Desktop development requires Go 1.25+, Wails CLI 2.15.0, and platform build dependencies. The app requires Node.js 20.9+ at runtime; Node is not bundled. See the [desktop guide](docs/desktop.md).
 
+## Add AI
+
+```bash
+npm run upgrade:harness
+npm run harness:doctor
+```
+
+Chat, call tools, and confirm writes at `/harness`. Demo mode works without an API key. Replace the model, plugins, or store as your app grows; see [Browser Harness](docs/harness.md). The same runtime works on the web and in Wails.
+
 ## Defaults with a point of view
 
 - Next.js 16.2, React 19, TypeScript, Tailwind CSS 4.
@@ -35,6 +44,7 @@ Desktop development requires Go 1.25+, Wails CLI 2.15.0, and platform build depe
 - Compact Chinese UI, 32px controls, 6px corner radius, semantic colors in both themes.
 - Server Components read initial data; client components handle interactions. Forms use React Hook Form + Zod.
 - Wails wraps a local Next.js server, keeping Server Actions, Flight, and SSE.
+- Optional AI chat with replaceable models, storage, and business plugins. Users confirm write operations.
 
 The homepage is an interactive workbench example. Items live in React state and reset on reload; replace them with your own data when building an app.
 

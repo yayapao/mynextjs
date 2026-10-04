@@ -23,11 +23,15 @@ npm run dev
 | `npm run start`                 | 启动 Web 构建产物，默认端口 3000            |
 | `npm run typecheck`             | TypeScript 检查                             |
 | `npm run lint`                  | ESLint 检查                                 |
-| `npm run test:cli`              | Wails 升级与运行时收集测试                  |
+| `npm run test:cli`              | Wails、Harness 升级与运行时收集测试         |
 | `npm run test:desktop-template` | 临时 Wails 工程的 Go 测试，需要桌面编译依赖 |
 | `npm run upgrade:wails`         | 生成桌面工程                                |
+| `npm run upgrade:harness`       | 生成 AI 对话工程并安装依赖                  |
+| `npm run test:harness-template` | 临时 Harness 工程的类型、Lint 与运行时测试  |
 
 升级后增加 `desktop:doctor`、`desktop:dev`、`desktop:build`，用法见 [桌面指南](desktop.md)。编码 Agent 的执行规则以 [AGENTS.md](../AGENTS.md) 为准。
+
+Harness 升级后增加 `harness:doctor` 和 `test:harness`，入口为 `/harness`。模型、会话与插件配置见 [Browser Harness](harness.md)。
 
 ## 文件放哪里
 
@@ -43,7 +47,10 @@ public/               静态资源
 docs/                 开发、样式和桌面文档
 scripts/              Wails CLI、运行时收集和测试
 templates/wails/      Wails 工程模板
+templates/harness/    Browser Harness 工程模板
 desktop/              升级后生成的桌面工程
+harness/              升级后生成的 AI 对话核心、适配器与插件
+nextpier.config.json  可选功能导航开关
 ```
 
 共享类型从 `types/index.ts` 导出；旧 `lib/types/` 路径保留兼容。

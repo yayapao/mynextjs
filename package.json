@@ -28,7 +28,9 @@
     "typecheck": "tsc --noEmit",
     "test:cli": "node --test scripts/tests/*.test.mjs",
     "test:desktop-template": "node scripts/tests/check-wails-template.mjs",
-    "upgrade:wails": "node scripts/desktop.mjs upgrade"
+    "test:harness-template": "node scripts/tests/check-harness-template.mjs",
+    "upgrade:wails": "node scripts/desktop.mjs upgrade",
+    "upgrade:harness": "node scripts/harness.mjs upgrade"
   },
   "dependencies": {
     "@animateicons/react": "^0.6.0",

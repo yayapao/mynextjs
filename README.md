@@ -28,6 +28,15 @@ npm run desktop:dev
 
 桌面开发需要 Go 1.25+、Wails CLI 2.15.0 和系统编译依赖。应用运行需要 Node.js 20.9+，安装包暂未内置 Node。详见 [桌面指南](docs/desktop.md)。
 
+## 接上 AI
+
+```bash
+npm run upgrade:harness
+npm run harness:doctor
+```
+
+在 `/harness` 对话、调用工具、确认操作。默认演示模式无需 Key；接模型、换插件或存储，见 [Browser Harness](docs/harness.md)。Web 与 Wails 共用这套运行时。
+
 ## 默认取舍
 
 - Next.js 16.2、React 19、TypeScript、Tailwind CSS 4。
@@ -35,6 +44,7 @@ npm run desktop:dev
 - 中文短文案、32px 控件、6px 基础圆角，深浅主题共用语义色。
 - 服务端读初始数据，客户端处理交互；表单用 React Hook Form + Zod。
 - Wails 包装本地 Next.js 服务，保留 Server Actions、Flight 和 SSE。
+- AI 对话按需接入，模型、存储、业务插件可替换，写操作由用户确认。
 
 首页放了可操作的工作台示例。工作项只保存在当前会话，接入业务时换成自己的数据。
 

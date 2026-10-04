@@ -10,7 +10,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 项目入口
 
 - 技术栈：Next.js 16 App Router、React 19、TypeScript、Tailwind CSS 4。
-- 开始任务先读本文件和 `docs/README.md`；界面任务读 `docs/design-system.md`，桌面任务读 `docs/desktop.md`。
+- 开始任务先读本文件和 `docs/README.md`；界面任务读 `docs/design-system.md`，桌面任务读 `docs/desktop.md`，Harness 任务读 `docs/harness.md`。
 - 保留已有工作区改动，不擅自回退、覆盖或清理用户文件。
 - 默认中文 UI 和回复，文案只保留标题、标签、操作、数据、状态、权限提示和校验错误。
 
@@ -46,6 +46,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 主题依赖 `next-themes` 和 CSS token；禁止在业务组件写硬编码色值或直接使用 zinc/slate 原色。
 
 ## 文件与验证
+
+- Harness 通过 `npm run upgrade:harness` 可选接入；核心、适配器、宿主和业务插件分层，模型密钥仅在服务端使用。
+- Harness 新工具同时更新注册与权限；写入、删除必须人工确认。浏览器会话和业务鉴权分别校验，追踪默认不记录载荷。
+- 基础模板的 Harness 验证用 `npm run test:harness-template`；业务工程生成后用 `npm run test:harness`。不以演示模型结果代替真实模型或浏览器验收。
 
 - 单个代码文件不超过 360 行；按职责拆分，不通过压缩格式达标。生成文件不手工修改。
 - 不自动运行 dev、build 或桌面打包；仅在用户当轮明确要求时执行。

@@ -15,7 +15,7 @@ export async function exists(file) {
     await lstat(file);
     return true;
   } catch (error) {
-    if (error.code === 'ENOENT') return false;
+    if (error.code === 'ENOENT' || error.code === 'ENOTDIR') return false;
     throw error;
   }
 }
