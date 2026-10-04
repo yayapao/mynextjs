@@ -1,4 +1,5 @@
 import ModeToggle from '@/components/build-in/header/mode-toggle';
+import { siteConfig } from '@/lib/metadata';
 import Logo from './logo';
 import GithubButton from './github';
 
@@ -7,7 +8,7 @@ const Header = () => {
     <header className="app-toolbar sticky top-0 z-40 flex h-12 items-center justify-between border-b bg-background px-4">
       <div className="flex items-center gap-2">
         <Logo />
-        <span className="text-sm font-semibold">mynextjs</span>
+        <span className="text-sm font-semibold">{siteConfig.name}</span>
       </div>
       <div className="app-toolbar__interactive flex items-center gap-1">
         <GithubButton />

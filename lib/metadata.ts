@@ -11,21 +11,21 @@ import type { Metadata } from 'next';
 
 const siteConfig = {
   /** Site name (short version) - used in page titles and social cards */
-  name: 'mynextjs',
+  name: 'NextPier',
 
   /** Full site title - appears in browser tabs and search results */
-  title: 'mynextjs - Modern Next.js Starter',
+  title: 'NextPier | Next.js 工作台与 Wails 桌面模板',
 
   /** Site description - appears in search results and social cards (150-160 characters recommended) */
   description:
-    'A modern Next.js starter template built with the latest features and best practices for scalable web applications.',
+    '面向工作台的 Next.js 模板，内置 AnimateIcons、Cult UI 和紧凑样式。一条命令升级 Wails 桌面应用，保留 Server Actions。',
 
   /** Your site's production URL (no trailing slash) */
   url: 'https://yoursite.com',
 
   /** External links */
   links: {
-    github: 'https://github.com/yourusername/mynextjs',
+    github: 'https://github.com/yayapao/mynextjs',
   },
 };
 
@@ -34,7 +34,7 @@ export const defaultMetadata: Metadata = {
    * Page title configuration
    * - default: The default title for pages without a specific title
    * - template: Pattern for page titles (%s is replaced with the page-specific title)
-   *   Example: "About | mynextjs"
+   *   Example: "About | NextPier"
    */
   title: {
     default: siteConfig.title,
@@ -51,19 +51,23 @@ export const defaultMetadata: Metadata = {
     'TypeScript',
     'Tailwind CSS',
     'Shadcn UI',
-    'Web Development',
+    'Wails',
+    'AnimateIcons',
+    'Cult UI',
+    'Desktop Apps',
+    'Workbench',
   ],
 
   /** Site author information */
   authors: [
     {
-      name: 'Your Name',
-      url: siteConfig.url,
+      name: 'yayapao',
+      url: 'https://github.com/yayapao',
     },
   ],
 
   /** Content creator name */
-  creator: 'Your Name',
+  creator: 'yayapao',
 
   /** Base URL for all relative URLs in metadata */
   metadataBase: new URL(siteConfig.url),
@@ -75,7 +79,7 @@ export const defaultMetadata: Metadata = {
    */
   openGraph: {
     type: 'website', // Type of content (website, article, video, etc.)
-    locale: 'en_US', // Language and region
+    locale: 'zh_CN', // Language and region
     url: siteConfig.url,
     title: siteConfig.title,
     description: siteConfig.description,
@@ -90,7 +94,6 @@ export const defaultMetadata: Metadata = {
     card: 'summary_large_image', // Card type (summary, summary_large_image, player, app)
     title: siteConfig.title,
     description: siteConfig.description,
-    creator: '@yourusername', // Your Twitter handle
   },
 
   /** Favicon and app icon configuration */

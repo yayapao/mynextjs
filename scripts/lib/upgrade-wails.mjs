@@ -20,7 +20,7 @@ export async function exists(file) {
   }
 }
 
-export function desktopIdentity(packageName = 'mynextjs', options = {}) {
+export function desktopIdentity(packageName = 'nextpier', options = {}) {
   const slug = packageName
     .replace(/^@[^/]+\//, '')
     .replace(/[^a-zA-Z0-9-]/g, '-')
@@ -56,7 +56,7 @@ export async function upgradeWails(root, templateRoot, options = {}) {
       throw new Error('desktop/ 已存在，拒绝覆盖');
     const marker = JSON.parse(await readFile(markerPath, 'utf8'));
     if (marker.generator !== 'mynextjs' || marker.schemaVersion !== 1)
-      throw new Error('desktop/ 不是兼容的 mynextjs 工程');
+      throw new Error('desktop/ 不是兼容的 NextPier 工程');
     if (
       (options.name && options.name !== marker.name) ||
       (options.id && options.id !== marker.id)

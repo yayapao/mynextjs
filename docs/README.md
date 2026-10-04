@@ -1,9 +1,13 @@
-# 项目文档
+# NextPier 文档
 
-| 文档                               | 内容                                           |
-| ---------------------------------- | ---------------------------------------------- |
-| [开发规范](../AGENTS.md)           | 组件优先级、数据与类型边界、文件规模、验证规则 |
-| [基础样式与组件](design-system.md) | Token、尺寸、主题、动画、组件示例              |
-| [Wails 桌面应用](desktop.md)       | CLI 升级、开发、打包、运行时与用户数据         |
+| 要做什么                 | 从这里开始                     |
+| ------------------------ | ------------------------------ |
+| 创建项目、接入业务       | [开发指南](development.md)     |
+| 选组件、调整界面         | [组件与样式](design-system.md) |
+| 升级、开发或打包桌面应用 | [桌面指南](desktop.md)         |
+| 用编码 Agent 开发        | [AGENTS.md](../AGENTS.md)      |
+| 设置 GitHub 名称与描述   | [GitHub 发布](github.md)       |
 
-框架行为以安装版本的 `node_modules/next/dist/docs/` 为准。本项目使用 Next.js 16.2.1，不降级到 Niu 的旧版本。
+版本和命令查 `package.json`；Next.js API 查当前安装版本的 `node_modules/next/dist/docs/`。
+
+[回到 README](../README.md)

@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { useMounted } from '@/hooks';
+import { siteConfig } from '@/lib/metadata';
 
 export default function Logo() {
   const { theme } = useTheme();
@@ -15,7 +16,7 @@ export default function Logo() {
   return (
     <Image
       src={theme === 'dark' ? '/dark-logo.png' : '/logo.png'}
-      alt="logo"
+      alt={siteConfig.name}
       width={28}
       height={28}
     />

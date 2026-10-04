@@ -1,60 +1,77 @@
-# 升级为 Wails 应用
+# 桌面指南
 
-## 一键升级
+Wails 提供原生窗口，Next.js 在本机处理页面和数据。现有 Web 项目可以继续使用 Server Actions。
 
-安装基础 mynextjs 项目及 npm 依赖后，在项目根目录执行：
+## 一键生成工程
+
+在已安装 npm 依赖的项目根目录执行：
 
 ```bash
 npm run upgrade:wails -- --name MyApp --id com.example.myapp
 ```
 
-`--name` 和 `--id` 可省略，默认从 `package.json.name` 派生应用名和 `com.example.<name>`。应用名允许中文与空格；ID 至少三段，使用小写字母、数字和连字符。正式应用应指定自己的 ID。
+| 参数     | 用途                                  | 默认值                       |
+| -------- | ------------------------------------- | ---------------------------- |
+| `--name` | 应用名，允许中文和空格                | 从 `package.json.name` 派生  |
+| `--id`   | 应用 ID，至少三段，每段以小写字母开头 | `com.example.<处理后的包名>` |
 
-命令生成 `desktop/`、追加 npm 脚本和生成产物的 Git 忽略规则，不修改已有 Web 启动命令。重复执行保留已有桌面文件；遇到未知 `desktop/` 或同名脚本冲突时退出。升级步骤只生成工程，开发或打包在下一步显式执行。
+正式应用填写自己的 ID，它也决定用户数据目录。
 
-## 开发环境
+命令生成 `desktop/`，加入 `desktop:doctor`、`desktop:dev`、`desktop:build` 和 Git 忽略规则。若有 `public/logo.png`，同时复制为桌面应用图标。重复执行保留已有工程；未知 `desktop/` 或同名脚本冲突会使命令退出。该命令只生成工程，开发和打包分别执行。
 
-- Node.js 20.9+，推荐项目的 Volta Node 24.9。
-- Go 1.25+，与 Wails v2.15.0 保持一致。
-- Wails CLI v2.15.0。
-- macOS：Xcode Command Line Tools；Windows：WebView2 和 Wails 所需编译环境；Linux：GTK/WebKit 开发依赖，使用 `wails doctor` 检查。
+## 准备环境
+
+| 依赖      | 要求                            |
+| --------- | ------------------------------- |
+| Node.js   | 20.9+，项目 Volta 配置为 24.9.0 |
+| Go        | 1.25+                           |
+| Wails CLI | 2.15.0                          |
+| macOS     | Xcode Command Line Tools        |
+| Windows   | WebView2 和 Wails 所需编译环境  |
+| Linux     | GTK/WebKit 开发依赖             |
 
 ```bash
 go install github.com/wailsapp/wails/v2/cmd/wails@v2.15.0
 npm run desktop:doctor
+```
+
+Go 的可执行文件目录需在 `PATH` 中，具体缺项由 `desktop:doctor` 检查。
+
+## 开发与打包
+
+开发窗口：
+
+```bash
 npm run desktop:dev
 ```
 
-`desktop:dev` 分配空闲的 loopback 端口，启动 Next.js HMR，等待 `/api/health` 成功，再运行 Wails 开发窗口。窗口使用 Next.js 开发服务；命令退出时清理服务进程。Go 在首次运行时下载依赖。
+CLI 分配空闲的 `127.0.0.1` 端口，启动 Next.js HMR，等待 `/api/health` 成功后打开 Wails。命令退出时清理开发服务。
 
-## 打包
+发布构建：
 
 ```bash
 npm run desktop:build
-# macOS 双架构 Go 客户端
+# macOS 双架构客户端
 npm run desktop:build -- --platform darwin/universal
 ```
 
-默认平台为当前系统和架构；在对应操作系统上构建。命令依次运行 Next.js 构建、收集运行时、执行 Wails 构建，输出到 `desktop/build/bin/`。不自动安装或启动应用。
+按当前系统和架构构建，产物在 `desktop/build/bin/`；命令不会安装或启动应用。跨系统发布应在目标系统构建。
 
-桌面构建设置 `MYNEXTJS_DESKTOP=1`，使 `next.config.ts` 启用 `output: 'standalone'` 和 `images.unoptimized`。支持默认 Turbopack；runtime 以单个 `runtime.tar.gz` 嵌入，避免动态路由和 chunk 文件名与 Go embed 冲突。静态导出 `output: 'export'` 无法承载 Server Actions，因此这里使用完整本地 Node.js 服务。
+安装包暂未内置 Node.js，运行机器仍需安装兼容版本。`darwin/universal` 只生成双架构 Go 客户端；若项目引入原生 Node 依赖，需要另行为目标架构准备运行时依赖。
 
-当前模板不内置 Node.js，用户机器必须安装兼容版本；也可设置 `MYNEXTJS_NODE` 为 Node 可执行文件绝对路径。macOS 可发现 PATH、Homebrew 和 zsh 登录环境中的 Node。若新增原生 Node 依赖，需为目标架构准备依赖；`darwin/universal` 仅保证 Go 客户端的双架构，单个运行时包不会自动生成两套原生 Node 依赖。
+## 本地服务如何运行
 
-## 运行时
+桌面构建自动设置 `MYNEXTJS_DESKTOP=1`，启用 Next.js `output: 'standalone'` 和 `images.unoptimized`。
 
-1. standalone、`.next/static`、`public` 收集为压缩包，解引用依赖符号链接。
-2. 收集阶段排除 `.env*`、`.git` 和 standalone 顶层 `data/`。不把本机密钥或用户数据装入应用。
-3. 包的内容摘要标识运行时版本。Go 将它解压到系统用户缓存，拒绝越界路径和符号链接；只有完整解压才创建完成标记。
-4. Node 服务监听动态 `127.0.0.1` 端口。Wails AssetServer 代理页面、API、Flight、Server Actions 和 SSE。
-5. 代理统一受信任 Wails Origin 和 forwarded host，使 Server Actions 可校验来源；其他 Origin 保持原样交给 Next.js 校验。
-6. 非根 HTML 路由注入 Wails runtime 脚本；SSE/Flight 保持流式传输。应用退出时结束 Node 进程树。
+1. 将 standalone、`.next/static`、`public` 收集为 `runtime.tar.gz`，解引用依赖链接。单个压缩包可容纳动态路由和 Turbopack 的文件名。
+2. 应用启动后按包内容摘要解压到系统用户缓存，检查路径和文件类型，完成后写入标记。
+3. Node 服务监听动态 `127.0.0.1` 端口。Wails 代理页面、API、Flight、Server Actions 和 SSE，退出时结束 Node 进程树。
 
-基础工具栏已有 `app-toolbar` 拖拽区和 `app-toolbar__interactive` 非拖拽区。Wails 提供原生窗口与 Edit 菜单；业务需要更多能力时在 Go 侧注册绑定并补齐类型。
+非根 HTML 路由补充 Wails runtime 脚本，SSE/Flight 保持流式传输。代理统一受信任 Wails Origin 与 forwarded host，其他 Origin 留给 Next.js 校验。
 
-## 数据与环境配置
+默认窗口 1280 × 800，最小 800 × 560。`app-toolbar` 是拖拽区，`app-toolbar__interactive` 是交互区。macOS 提供原生 Edit 菜单；新增 Go 绑定时同步补齐前端类型。
 
-数据目录以应用 ID 隔离，升级和重新打包不会覆盖用户配置。
+## 数据留在用户目录
 
 | 系统    | 配置目录                                              |
 | ------- | ----------------------------------------------------- |
@@ -62,24 +79,25 @@ npm run desktop:build -- --platform darwin/universal
 | Windows | `%AppData%/<app-id>/`                                 |
 | Linux   | `$XDG_CONFIG_HOME/<app-id>/` 或 `~/.config/<app-id>/` |
 
-在配置目录放 `.env.local`，服务启动时读取；进程环境优先。`MYNEXTJS_DATA_DIR` 指向其 `data/` 子目录，`lib/config.ts` 已遵循该路径。`desktop.log` 位于同一配置目录；运行时缓存与数据目录分离。
+配置目录内的文件：
 
-修改应用身份需同步 `desktop/main.go`、`mynextjs.json`、`wails.json`、两个 macOS plist。修改 ID 会改变配置目录，迁移数据需自行处理。
+| 路径          | 内容                                  |
+| ------------- | ------------------------------------- |
+| `.env.local`  | 本地服务环境变量，进程环境优先        |
+| `data/`       | 用户数据；由 `MYNEXTJS_DATA_DIR` 指向 |
+| `desktop.log` | 服务输出与启动日志                    |
 
-## 验证
+运行时缓存与用户数据分开存放，重新打包不会覆盖这个目录。收集阶段排除 `.env*`、`.git` 和 standalone 顶层 `data/`；`NEXT_PUBLIC_*` 会在构建时进入前端产物，只放公开值。
 
-```bash
-npm run typecheck
-npm run lint
-npm run test:cli
-npm run test:desktop-template
-```
+指定 Node 路径时，在启动应用的进程环境中设置 `MYNEXTJS_NODE`。它在读取配置目录的 `.env.local` 之前使用。macOS 还会查找 PATH、Homebrew 和 zsh 登录环境中的 Node。
 
-CLI 测试覆盖生成、冲突、重复升级、路径和运行时收集；桌面模板测试在临时工程执行 `go test`，检查压缩包解压、流式代理、runtime 注入和 Server Actions 转发。此类测试不等于完成应用打包与原生窗口验收。
+修改应用身份需同步 `desktop/main.go`、`desktop/mynextjs.json`、`desktop/wails.json` 和两个 macOS plist。修改 ID 后，数据目录也会变化，需要迁移原数据。
 
-## 手动修改 Next 配置后
+## 改过 Next 配置
 
-CLI 检查 `next.config.ts` 中的 `MYNEXTJS_DESKTOP` 标记，避免生成不能打包的工程。若重写了配置，保留：
+`MYNEXTJS_*` 环境变量和 `desktop/mynextjs.json` 沿用原有名称，保证项目更名后仍能识别已有桌面工程。NextPier 的项目名与这些配置键互不影响。
+
+CLI 检查 `next.config.ts` 中的 `MYNEXTJS_DESKTOP` 标记。重写配置时保留以下分支：
 
 ```ts
 import type { NextConfig } from 'next';
@@ -96,4 +114,17 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-若项目改为 monorepo 或自定义 `distDir`，需同步 runtime 收集路径与 tracing 配置；本模板按标准单项目 `.next/standalone/server.js` 结构工作。
+运行时收集按 `.next/standalone/server.js` 结构工作。改为 monorepo 或自定义 `distDir` 时，同步调整 tracing 配置和收集路径。
+
+## 验证
+
+```bash
+npm run test:cli
+npm run test:desktop-template
+```
+
+CLI 测试覆盖生成、重复执行、冲突和运行时收集。模板测试在临时工程执行 `go test`，检查解压、代理和 runtime 注入；需要 Go 与系统编译依赖。
+
+发布前另行验证实际打包产物、原生窗口和业务流程。测试通过不等于完成窗口验收。
+
+[开发指南](development.md) · [文档目录](README.md)

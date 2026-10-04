@@ -203,6 +203,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(`[mynextjs] ${error.message}`);
+  console.error(`[NextPier] ${error.message}`);
   if (process.exitCode !== 130) process.exitCode = 1;
 });

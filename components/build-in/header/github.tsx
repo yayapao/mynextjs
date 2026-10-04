@@ -2,6 +2,7 @@
 
 import { GithubIcon } from '@animateicons/react/lucide/github-icon';
 import { AnimatedIconButton } from '@/components/ui/animated-icon-button';
+import { siteConfig } from '@/lib/metadata';
 
 export default function GithubButton() {
   return (
@@ -10,11 +11,7 @@ export default function GithubButton() {
       label="GitHub 仓库"
       variant="ghost"
       onClick={() =>
-        window.open(
-          'https://github.com/yayapao/mynextjs',
-          '_blank',
-          'noopener,noreferrer'
-        )
+        window.open(siteConfig.links.github, '_blank', 'noopener,noreferrer')
       }
     />
   );

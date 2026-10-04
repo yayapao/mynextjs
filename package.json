@@ -1,7 +1,25 @@
 {
-  "name": "mynextjs",
+  "name": "nextpier",
   "version": "0.1.0",
+  "description": "Next.js starter for workbench apps. Add a Wails desktop app in one command, with AnimateIcons, Cult UI, and Server Actions.",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yayapao/mynextjs.git"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "wails",
+    "desktop-app",
+    "starter-template",
+    "animateicons",
+    "cult-ui",
+    "shadcn-ui"
+  ],
   "scripts": {
     "dev": "next dev --port 3900",
     "build": "next build",
