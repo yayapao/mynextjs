@@ -10,6 +10,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 项目入口
 
 - 技术栈：Next.js 16 App Router、React 19、TypeScript、Tailwind CSS 4。
+- 编码工具使用 ChatGPT / Codex，项目规范保存在 `AGENTS.md`，项目技能保存在 `.agents/skills/`。
 - 开始任务先读本文件和 `docs/README.md`；界面任务读 `docs/design-system.md`，桌面任务读 `docs/desktop.md`，Harness 任务读 `docs/harness.md`。
 - 从模板创建业务项目可使用 `docs/ai-agent.md` 的 Prompt；按业务需求完成页面、数据和可选 CLI 集成。
 - 保留已有工作区改动，不擅自回退、覆盖或清理用户文件。

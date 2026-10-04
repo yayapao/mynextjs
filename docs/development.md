@@ -7,14 +7,14 @@
 锁文件使用 npm 公共源，仓库不依赖内部包地址。
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm
+npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
 cd my-app
 npm run dev
 ```
 
 默认开发地址为 [localhost:3900](http://localhost:3900)。直接使用仓库时，先执行 `npm install`。
 
-交给 AI Agent 创建项目时，使用 [建项 Prompt](ai-agent.md)，填入目录、业务目标和数据来源即可。
+交给 ChatGPT / Codex 创建项目时，使用 [建项 Prompt](ai-agent.md)，填入目录、业务目标和数据来源即可。`--no-agents-md` 关闭 CLI 的 Agent 文件自动生成，项目沿用模板中的 `AGENTS.md` 与 `.agents/skills/`。
 
 ## 常用命令
 
@@ -33,7 +33,7 @@ npm run dev
 | `npm run upgrade:harness`       | 生成 AI 对话工程并安装依赖                  |
 | `npm run test:harness-template` | 临时 Harness 工程的类型、Lint 与运行时测试  |
 
-升级后增加 `desktop:doctor`、`desktop:dev`、`desktop:build`，用法见 [桌面指南](desktop.md)。编码 Agent 的执行规则以 [AGENTS.md](../AGENTS.md) 为准。
+升级后增加 `desktop:doctor`、`desktop:dev`、`desktop:build`，用法见 [桌面指南](desktop.md)。ChatGPT / Codex 的执行规则以 [AGENTS.md](../AGENTS.md) 为准。
 
 Harness 升级后增加 `harness:doctor` 和 `test:harness`，入口为 `/harness`。模型、会话与插件配置见 [Browser Harness](harness.md)。
 

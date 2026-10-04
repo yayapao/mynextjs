@@ -3,11 +3,11 @@
 | 要做什么                 | 从这里开始                     |
 | ------------------------ | ------------------------------ |
 | 创建项目、接入业务       | [开发指南](development.md)     |
-| 让 AI Agent 快速建项     | [建项 Prompt](ai-agent.md)     |
+| 让 ChatGPT / Codex 建项  | [建项 Prompt](ai-agent.md)     |
 | 选组件、调整界面         | [组件与样式](design-system.md) |
 | 升级、开发或打包桌面应用 | [桌面指南](desktop.md)         |
 | 接入 AI 对话与业务工具   | [Browser Harness](harness.md)  |
-| 用编码 Agent 开发        | [AGENTS.md](../AGENTS.md)      |
+| 用 ChatGPT / Codex 开发  | [AGENTS.md](../AGENTS.md)      |
 | 设置 GitHub 名称与描述   | [GitHub 发布](github.md)       |
 
 版本和命令查 `package.json`；Next.js API 查当前安装版本的 `node_modules/next/dist/docs/`。

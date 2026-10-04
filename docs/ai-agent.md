@@ -1,6 +1,6 @@
-# AI Agent 建项
+# ChatGPT / Codex 建项
 
-把目标和流程写清楚，Agent 就能从 NextPier 开始做业务。下方 Prompt 可用于 Codex、Claude Code 等能读写文件、执行 CLI 的编码 Agent。
+把目标和流程写清楚，ChatGPT / Codex 就能从 NextPier 开始做业务。下方 Prompt 适用于具备文件读写和 CLI 执行能力的 ChatGPT / Codex。
 
 ## 完整 Prompt
 
@@ -23,7 +23,7 @@
 
 执行要求：
 1. 检查目标目录。不存在时用下面的命令创建；已有 NextPier 工程时直接继续。
-   npx create-next-app@latest [npm包名] --example https://github.com/yayapao/nextpier --use-npm
+   npx create-next-app@latest [npm包名] --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
    命令在目标目录的父目录执行，生成目录名为 npm 包名；需要不同路径时再移动到目标目录。
    非空目录先读取已有文件，保留用户改动，遇到无法合并的冲突再说明具体阻碍。
    确认 npm 依赖已安装。
@@ -64,7 +64,7 @@
 
 ```text
 请用 https://github.com/yayapao/nextpier 创建 ./issue-desk，项目名「工单台」。
-用 create-next-app --example 安装模板和依赖，读取 AGENTS.md、docs/ai-agent.md 与样式规范后直接实现。
+用 create-next-app --example --no-agents-md 安装模板和依赖，读取 AGENTS.md、docs/ai-agent.md 与样式规范后直接实现。
 这是单用户本地工作台：工单列表支持搜索和状态筛选，可新建、编辑、关闭工单，刷新后数据仍在。
 字段包括标题、优先级、状态和创建时间。数据保存到 NEXTPIER_DATA_DIR 或 data/，通过 Server Actions 写入。
 使用中文紧凑界面、AnimateIcons 和现有基础组件，补齐表单校验、空状态和错误反馈。

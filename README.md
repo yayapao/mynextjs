@@ -9,22 +9,22 @@
 ## 开工
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm
+npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
 cd my-app
 npm run dev
 ```
 
 打开 [localhost:3900](http://localhost:3900)。直接使用此仓库，先执行 `npm install`。
 
-## 交给 Agent
+## 交给 ChatGPT / Codex
 
-改掉方括号里的内容，直接发给编码 Agent：
+改掉方括号里的内容，直接发给 ChatGPT / Codex：
 
 ```text
 请基于 https://github.com/yayapao/nextpier 在 [目标目录] 创建 [项目名]。
 业务目标：[谁使用、要完成什么]。主要流程：[列出流程]。
 数据来源：[API、数据库或单用户本地持久化]。能力：[Web / Web+AI / Wails / Wails+AI]。
-用 create-next-app 的 --example 创建工程并安装依赖；目标目录非空时先检查已有内容。
+用 create-next-app 的 --example 和 --no-agents-md 创建工程并安装依赖；目标目录非空时先检查已有内容。
 先读 AGENTS.md、docs/README.md、docs/ai-agent.md 和当前安装的 Next.js 文档。
 按现有组件与样式规范完成业务首页、数据读写、表单校验及加载、空、错误状态。
 需要 AI 时运行 npm run upgrade:harness；需要桌面时运行 npm run upgrade:wails 并设置应用名称和 ID。
@@ -32,7 +32,7 @@ npm run dev
 直接完成实现。默认不启动 dev、不构建或打包；交付时列出命令、检查结果和待验证项。
 ```
 
-完整 Prompt 与具体场景见 [AI Agent 建项](docs/ai-agent.md)。
+完整 Prompt 与具体场景见 [ChatGPT / Codex 建项](docs/ai-agent.md)。
 
 ## 上桌面
 

@@ -9,22 +9,22 @@ A Next.js starter for workbench apps. AnimateIcons, Cult UI, and compact styles 
 ## Start building
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm
+npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
 cd my-app
 npm run dev
 ```
 
 Open [localhost:3900](http://localhost:3900). Cloning the repository directly? Run `npm install` first.
 
-## Hand it to an agent
+## Hand it to ChatGPT / Codex
 
-Replace the brackets and send this to your coding agent:
+Replace the brackets and send this to ChatGPT / Codex:
 
 ```text
 Use https://github.com/yayapao/nextpier to create [project name] in [target directory].
 Goal: [who uses it and what they need to do]. Workflows: [list them].
 Data: [API, database, or single-user local persistence]. Features: [Web / Web+AI / Wails / Wails+AI].
-Create the project with create-next-app --example and install dependencies. Inspect a nonempty target before making changes.
+Create the project with create-next-app --example --no-agents-md and install dependencies. Inspect a nonempty target before making changes.
 Read AGENTS.md, docs/README.md, docs/ai-agent.md, and the installed Next.js docs first.
 Build the business homepage, data reads and writes, validation, and loading, empty, and error states using the existing components and style rules.
 For AI, run npm run upgrade:harness. For desktop, run npm run upgrade:wails with the app name and ID.
@@ -32,7 +32,7 @@ Update the name, metadata, and README. Run typecheck, lint, and test:cli; run te
 Complete the implementation. Do not start dev, build, or package by default. Report commands, check results, and anything still unverified.
 ```
 
-The [AI agent guide](docs/ai-agent.md) has a fuller prompt and worked scenarios in Chinese.
+The [ChatGPT / Codex guide](docs/ai-agent.md) has a fuller prompt and worked scenarios in Chinese.
 
 ## Go desktop
 
