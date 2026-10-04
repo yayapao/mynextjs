@@ -9,12 +9,15 @@
 ## 开工
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
+NEXTPIER_TEMPLATE_DIR="$(mktemp -d)"
+git clone --depth 1 --branch main https://github.com/yayapao/nextpier.git "$NEXTPIER_TEMPLATE_DIR"
+node "$NEXTPIER_TEMPLATE_DIR/scripts/init.mjs" --project ./my-app --name my-app
 cd my-app
+npm install
 npm run dev
 ```
 
-打开 [localhost:3900](http://localhost:3900)。直接使用此仓库，先执行 `npm install`。
+打开 [localhost:3900](http://localhost:3900)。已 clone 新项目时，在该仓库中用 `--project .` 导入模板，保留原 `.git` 和 `LICENSE`，详见 [初始化指南](docs/development.md#初始化已-clone-的仓库)。直接使用 NextPier 仓库，先执行 `npm install`。
 
 ## 交给 ChatGPT / Codex
 
@@ -22,9 +25,13 @@ npm run dev
 
 ```text
 请基于 https://github.com/yayapao/nextpier 在 [目标目录] 创建 [项目名]。
+npm 包名：[小写英文，可含数字和连字符]。
 业务目标：[谁使用、要完成什么]。主要流程：[列出流程]。
 数据来源：[API、数据库或单用户本地持久化]。能力：[Web / Web+AI / Wails / Wails+AI]。
-用 create-next-app 的 --example 和 --no-agents-md 创建工程并安装依赖；目标目录非空时先检查已有内容。
+先检查目标目录。已有 NextPier 工程时直接继续；已 clone 但只有 .git、LICENSE、README 等文件时，在该目录初始化。
+初始化时，把模板通过 git clone --depth 1 --branch main 获取到目标目录外的专用临时目录。
+运行 node "[模板目录]/scripts/init.mjs" --project "[目标目录]" --name "[npm包名]"，然后在目标目录执行 npm install。
+保留目标仓库的 .git、历史、remote、LICENSE 和用户文件；同名文件冲突先读取差异并合并。
 先读 AGENTS.md、docs/README.md、docs/ai-agent.md 和当前安装的 Next.js 文档。
 按现有组件与样式规范完成业务首页、数据读写、表单校验及加载、空、错误状态。
 需要 AI 时运行 npm run upgrade:harness；需要桌面时运行 npm run upgrade:wails 并设置应用名称和 ID。

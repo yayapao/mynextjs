@@ -31,6 +31,7 @@
     "test:cli": "node --test scripts/tests/*.test.mjs",
     "test:desktop-template": "node scripts/tests/check-wails-template.mjs",
     "test:harness-template": "node scripts/tests/check-harness-template.mjs",
+    "init:project": "node scripts/init.mjs",
     "upgrade:wails": "node scripts/desktop.mjs upgrade",
     "upgrade:harness": "node scripts/harness.mjs upgrade"
   },

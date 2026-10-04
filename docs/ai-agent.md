@@ -4,7 +4,7 @@
 
 ## 完整 Prompt
 
-替换方括号里的值；单用户本地应用可以不提供外部接口。
+替换方括号里的值；在已 clone 的新项目中使用时，目标目录填写当前仓库的绝对路径或 `.`。单用户本地应用可以不提供外部接口。
 
 ```text
 请基于 https://github.com/yayapao/nextpier 创建并完成以下应用。
@@ -22,11 +22,18 @@
 - AI 能力：[使用 AI 时填写模型配置来源、只读工具和需确认的写操作]
 
 执行要求：
-1. 检查目标目录。不存在时用下面的命令创建；已有 NextPier 工程时直接继续。
-   npx create-next-app@latest [npm包名] --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
-   命令在目标目录的父目录执行，生成目录名为 npm 包名；需要不同路径时再移动到目标目录。
-   非空目录先读取已有文件，保留用户改动，遇到无法合并的冲突再说明具体阻碍。
-   确认 npm 依赖已安装。
+1. 先解析目标目录的绝对路径并检查文件，再初始化。
+   - 已有 NextPier 工程（package.json、nextpier.config.json 和升级脚本齐全）：直接继续。
+   - 尚未初始化（包括已 clone、仅有 .git、LICENSE、README 或 .gitignore 的仓库）：
+     在目标目录之外创建本次专用临时目录，通过下面的命令获取模板：
+     git clone --depth 1 --branch main https://github.com/yayapao/nextpier.git "[模板目录]"
+     先读取模板的 AGENTS.md、docs/README.md 和 docs/development.md，然后执行：
+     node "[模板目录]/scripts/init.mjs" --project "[目标目录绝对路径]" --name "[npm包名]"
+     命令原地导入模板，保留目标仓库的 .git、历史、remote、LICENSE 与 README，补齐 .gitignore。
+     同名文件冲突时，读取并合并差异，保留用户内容，解决后再继续；只有无法合并时才说明阻碍。
+   - 已有其他业务工程：按文件差异接入 NextPier，保留现有数据、配置和 Git 仓库。
+   下载失败时记录 Git 的实际错误；有可用的本地 NextPier 副本时直接作为模板目录重试。
+   在目标目录执行 npm install，版本以导入的 package.json 和 package-lock.json 为准。
 2. 先读 AGENTS.md、docs/README.md、docs/development.md、docs/design-system.md，
    写 Next.js 代码前读 node_modules/next/dist/docs/ 中相关指南。
    需要 Harness 时读 docs/harness.md，需要 Wails 时读 docs/desktop.md。
@@ -64,7 +71,9 @@
 
 ```text
 请用 https://github.com/yayapao/nextpier 创建 ./issue-desk，项目名「工单台」。
-用 create-next-app --example --no-agents-md 安装模板和依赖，读取 AGENTS.md、docs/ai-agent.md 与样式规范后直接实现。
+按 docs/ai-agent.md 的初始化流程操作：已有 NextPier 时直接继续；已 clone 的新仓库保留 .git 与 LICENSE，
+把模板浅 clone 到目标目录外，再用模板的 scripts/init.mjs --project 导入并安装依赖。
+读取 AGENTS.md、docs/ai-agent.md 与样式规范后直接实现。
 这是单用户本地工作台：工单列表支持搜索和状态筛选，可新建、编辑、关闭工单，刷新后数据仍在。
 字段包括标题、优先级、状态和创建时间。数据保存到 NEXTPIER_DATA_DIR 或 data/，通过 Server Actions 写入。
 使用中文紧凑界面、AnimateIcons 和现有基础组件，补齐表单校验、空状态和错误反馈。

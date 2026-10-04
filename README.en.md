@@ -9,12 +9,15 @@ A Next.js starter for workbench apps. AnimateIcons, Cult UI, and compact styles 
 ## Start building
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm --no-agents-md
+NEXTPIER_TEMPLATE_DIR="$(mktemp -d)"
+git clone --depth 1 --branch main https://github.com/yayapao/nextpier.git "$NEXTPIER_TEMPLATE_DIR"
+node "$NEXTPIER_TEMPLATE_DIR/scripts/init.mjs" --project ./my-app --name my-app
 cd my-app
+npm install
 npm run dev
 ```
 
-Open [localhost:3900](http://localhost:3900). Cloning the repository directly? Run `npm install` first.
+Open [localhost:3900](http://localhost:3900). For a project you already cloned, import with `--project .` inside that repository. Its `.git` and `LICENSE` are preserved; see the [initialization guide](docs/development.md#初始化已-clone-的仓库), including PowerShell commands. Using the NextPier checkout directly? Run `npm install` first.
 
 ## Hand it to ChatGPT / Codex
 
@@ -22,9 +25,13 @@ Replace the brackets and send this to ChatGPT / Codex:
 
 ```text
 Use https://github.com/yayapao/nextpier to create [project name] in [target directory].
+npm package name: [lowercase English; digits and hyphens allowed].
 Goal: [who uses it and what they need to do]. Workflows: [list them].
 Data: [API, database, or single-user local persistence]. Features: [Web / Web+AI / Wails / Wails+AI].
-Create the project with create-next-app --example --no-agents-md and install dependencies. Inspect a nonempty target before making changes.
+Inspect the target first. Continue an existing NextPier project; initialize a cloned repository containing only .git, LICENSE, README, or similar files in place.
+Fetch the template with git clone --depth 1 --branch main into a dedicated temporary directory outside the target.
+Run node "[template directory]/scripts/init.mjs" --project "[target directory]" --name "[npm package name]", then run npm install in the target.
+Keep the target's .git, history, remote, LICENSE, and user files. Read and merge differences when files conflict.
 Read AGENTS.md, docs/README.md, docs/ai-agent.md, and the installed Next.js docs first.
 Build the business homepage, data reads and writes, validation, and loading, empty, and error states using the existing components and style rules.
 For AI, run npm run upgrade:harness. For desktop, run npm run upgrade:wails with the app name and ID.
