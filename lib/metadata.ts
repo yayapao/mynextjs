@@ -18,14 +18,14 @@ const siteConfig = {
 
   /** Site description - appears in search results and social cards (150-160 characters recommended) */
   description:
-    '面向工作台的 Next.js 模板，内置 AnimateIcons、Cult UI 和紧凑样式。一条命令升级 Wails 桌面应用，保留 Server Actions。',
+    '面向工作台的 Next.js 模板，内置 AnimateIcons、Cult UI 和紧凑样式。通过 CLI 接入 Wails 桌面应用与 Browser Harness AI 对话，保留 Server Actions。',
 
   /** Your site's production URL (no trailing slash) */
   url: 'https://yoursite.com',
 
   /** External links */
   links: {
-    github: 'https://github.com/yayapao/mynextjs',
+    github: 'https://github.com/yayapao/nextpier',
   },
 };
 
@@ -56,6 +56,7 @@ export const defaultMetadata: Metadata = {
     'Cult UI',
     'Desktop Apps',
     'Workbench',
+    'Browser Harness',
   ],
 
   /** Site author information */

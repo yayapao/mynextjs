@@ -11,6 +11,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - 技术栈：Next.js 16 App Router、React 19、TypeScript、Tailwind CSS 4。
 - 开始任务先读本文件和 `docs/README.md`；界面任务读 `docs/design-system.md`，桌面任务读 `docs/desktop.md`，Harness 任务读 `docs/harness.md`。
+- 从模板创建业务项目可使用 `docs/ai-agent.md` 的 Prompt；按业务需求完成页面、数据和可选 CLI 集成。
 - 保留已有工作区改动，不擅自回退、覆盖或清理用户文件。
 - 默认中文 UI 和回复，文案只保留标题、标签、操作、数据、状态、权限提示和校验错误。
 
@@ -22,7 +23,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Route Handler 用于外部调用、上传、回调和兼容 API；同时检查 HTTP 状态码与业务结果。
 - `params`、`searchParams`、`cookies()`、`headers()` 按当前 Next.js 文档使用异步 API。
 - 共享业务类型集中在 `types/`，从 `types/index.ts` 导出并用 `import type`；第三方基础组件的泛型和局部 props 可就地定义。
-- 服务端文件操作使用 `MYNEXTJS_DATA_DIR` 或项目 `data/`；不得把用户数据写入桌面运行时缓存。
+- 服务端文件操作使用 `NEXTPIER_DATA_DIR` 或项目 `data/`；不得把用户数据写入桌面运行时缓存。
 
 ## 基础组件
 

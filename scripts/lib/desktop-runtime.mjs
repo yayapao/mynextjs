@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
-import { cp, mkdir, mkdtemp, readFile, rename, rm } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, rename, rm } from 'node:fs/promises';
 import { c as createTar } from 'tar';
 import path from 'node:path';
 import { exists } from './upgrade-wails.mjs';
+import { readDesktopConfig } from './desktop-config.mjs';
 
 export function includeRuntimeFile(relative, excludeData = true) {
   const parts = relative.split(path.sep);
@@ -24,10 +25,7 @@ export async function prepareRuntime(root) {
       '缺少 Next.js standalone 产物，请通过 npm run desktop:build 构建'
     );
   }
-  const config = JSON.parse(
-    await readFile(path.join(root, 'desktop', 'mynextjs.json'), 'utf8')
-  );
-  if (config.generator !== 'mynextjs') throw new Error('无效的桌面工程');
+  if (!(await readDesktopConfig(root))) throw new Error('无效的桌面工程');
   const target = path.join(root, 'desktop', 'runtime.tar.gz');
   const temporary = await mkdtemp(path.join(root, 'desktop', '.runtime-'));
   try {

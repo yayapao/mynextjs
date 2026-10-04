@@ -118,7 +118,7 @@ func extractArchive(input io.Reader, destination string) error {
 }
 
 func findNode() (string, error) {
-	candidates := []string{os.Getenv("MYNEXTJS_NODE")}
+	candidates := []string{os.Getenv("NEXTPIER_NODE"), os.Getenv("MYNEXTJS_NODE")}
 	if node, err := exec.LookPath("node"); err == nil {
 		candidates = append(candidates, node)
 	}
@@ -146,7 +146,7 @@ func findNode() (string, error) {
 			return candidate, nil
 		}
 	}
-	return "", errors.New("未找到 Node.js 20.9+；请安装 Node.js 或设置 MYNEXTJS_NODE")
+	return "", errors.New("未找到 Node.js 20.9+；请安装 Node.js 或设置 NEXTPIER_NODE")
 }
 
 func serverEnvironment(configDir string, port int) ([]string, error) {
@@ -170,8 +170,11 @@ func serverEnvironment(configDir string, port int) ([]string, error) {
 	values["NODE_ENV"] = "production"
 	values["HOSTNAME"] = "127.0.0.1"
 	values["PORT"] = strconv.Itoa(port)
-	values["MYNEXTJS_DATA_DIR"] = filepath.Join(configDir, "data")
-	values["MYNEXTJS_INTERNAL_URL"] = "http://127.0.0.1:" + strconv.Itoa(port)
+	values["NEXTPIER_DATA_DIR"] = filepath.Join(configDir, "data")
+	values["NEXTPIER_INTERNAL_URL"] = "http://127.0.0.1:" + strconv.Itoa(port)
+	// Preserve data access for applications using the original environment keys.
+	values["MYNEXTJS_DATA_DIR"] = values["NEXTPIER_DATA_DIR"]
+	values["MYNEXTJS_INTERNAL_URL"] = values["NEXTPIER_INTERNAL_URL"]
 	result := make([]string, 0, len(values))
 	for key, value := range values {
 		result = append(result, key+"="+value)

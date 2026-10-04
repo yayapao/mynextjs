@@ -63,7 +63,7 @@ npm run desktop:build -- --platform darwin/universal
 
 ## 本地服务如何运行
 
-桌面构建自动设置 `MYNEXTJS_DESKTOP=1`，启用 Next.js `output: 'standalone'` 和 `images.unoptimized`。
+桌面构建自动设置 `NEXTPIER_DESKTOP=1`，启用 Next.js `output: 'standalone'` 和 `images.unoptimized`。
 
 1. 将 standalone、`.next/static`、`public` 收集为 `runtime.tar.gz`，解引用依赖链接。单个压缩包可容纳动态路由和 Turbopack 的文件名。
 2. 应用启动后按包内容摘要解压到系统用户缓存，检查路径和文件类型，完成后写入标记。
@@ -86,26 +86,30 @@ npm run desktop:build -- --platform darwin/universal
 | 路径          | 内容                                  |
 | ------------- | ------------------------------------- |
 | `.env.local`  | 本地服务环境变量，进程环境优先        |
-| `data/`       | 用户数据；由 `MYNEXTJS_DATA_DIR` 指向 |
+| `data/`       | 用户数据；由 `NEXTPIER_DATA_DIR` 指向 |
 | `desktop.log` | 服务输出与启动日志                    |
 
 运行时缓存与用户数据分开存放，重新打包不会覆盖这个目录。收集阶段排除 `.env*`、`.git` 和 standalone 顶层 `data/`；`NEXT_PUBLIC_*` 会在构建时进入前端产物，只放公开值。
 
-指定 Node 路径时，在启动应用的进程环境中设置 `MYNEXTJS_NODE`。它在读取配置目录的 `.env.local` 之前使用。macOS 还会查找 PATH、Homebrew 和 zsh 登录环境中的 Node。
+指定 Node 路径时，在启动应用的进程环境中设置 `NEXTPIER_NODE`。它在读取配置目录的 `.env.local` 之前使用。macOS 还会查找 PATH、Homebrew 和 zsh 登录环境中的 Node。
 
-修改应用身份需同步 `desktop/main.go`、`desktop/mynextjs.json`、`desktop/wails.json` 和两个 macOS plist。修改 ID 后，数据目录也会变化，需要迁移原数据。
+新工程的标记文件为 `desktop/nextpier.json`，生成器名为 `nextpier-wails`。修改应用身份需同步标记文件、`desktop/main.go`、`desktop/wails.json` 和两个 macOS plist。修改 ID 后，数据目录也会变化，需要迁移原数据。
+
+CLI 设置 `NEXTPIER_DEV_URL` 连接开发服务；生产服务设置 `NEXTPIER_INTERNAL_URL` 为本机 Node 地址。两者由桌面运行时管理。
+
+## 旧工程兼容
+
+已有 `desktop/mynextjs.json` 仍可读取，重复升级保留源码与应用 ID。Web 配置读取旧 `MYNEXTJS_DATA_DIR`，以 `NEXTPIER_DATA_DIR` 为优先。CLI 和桌面运行时保留 `MYNEXTJS_*` 别名，便于旧工程继续开发；目录更名不会改变应用 ID 或迁移用户数据。
 
 ## 改过 Next 配置
 
-`MYNEXTJS_*` 环境变量和 `desktop/mynextjs.json` 沿用原有名称，保证项目更名后仍能识别已有桌面工程。NextPier 的项目名与这些配置键互不影响。
-
-CLI 检查 `next.config.ts` 中的 `MYNEXTJS_DESKTOP` 标记。重写配置时保留以下分支：
+CLI 检查 `next.config.ts` 中的 `NEXTPIER_DESKTOP` 标记，也接受旧标记。重写配置时保留以下分支：
 
 ```ts
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  ...(process.env.MYNEXTJS_DESKTOP === '1'
+  ...((process.env.NEXTPIER_DESKTOP ?? process.env.MYNEXTJS_DESKTOP) === '1'
     ? {
         output: 'standalone',
         images: { unoptimized: true },
@@ -125,8 +129,8 @@ npm run test:cli
 npm run test:desktop-template
 ```
 
-CLI 测试覆盖生成、重复执行、冲突和运行时收集。模板测试在临时工程执行 `go test`，检查解压、代理和 runtime 注入；需要 Go 与系统编译依赖。
+CLI 测试覆盖生成、重复执行、新旧标记兼容、冲突和运行时收集。模板测试在临时工程执行 `go test`，检查解压、环境变量、代理和 runtime 注入；需要 Go 与系统编译依赖。
 
 发布前另行验证实际打包产物、原生窗口和业务流程。测试通过不等于完成窗口验收。
 
-[开发指南](development.md) · [文档目录](README.md)
+[建项 Prompt](ai-agent.md) · [开发指南](development.md) · [文档目录](README.md)

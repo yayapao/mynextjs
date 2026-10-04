@@ -4,8 +4,12 @@ import net from 'node:net';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { exists, upgradeWails } from './lib/upgrade-wails.mjs';
+import { upgradeWails } from './lib/upgrade-wails.mjs';
 import { prepareRuntime } from './lib/desktop-runtime.mjs';
+import {
+  desktopEnvironment,
+  readDesktopConfig,
+} from './lib/desktop-config.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { values, positionals } = parseArgs({
@@ -71,7 +75,7 @@ async function develop() {
     {
       cwd: root,
       stdio: 'inherit',
-      env: { ...process.env, MYNEXTJS_DESKTOP: '1' },
+      env: desktopEnvironment(),
       detached: process.platform !== 'win32',
     }
   );
@@ -122,6 +126,7 @@ async function develop() {
       path.join(root, 'desktop'),
       {
         ...process.env,
+        NEXTPIER_DEV_URL: url,
         MYNEXTJS_DEV_URL: url,
       },
       controller.signal
@@ -160,7 +165,7 @@ async function main() {
     );
     return;
   }
-  if (!(await exists(path.join(root, 'desktop', 'mynextjs.json'))))
+  if (!(await readDesktopConfig(root)))
     throw new Error('请先运行 npm run upgrade:wails');
   requireTool('go');
   requireTool('wails');
@@ -190,7 +195,7 @@ async function main() {
     process.execPath,
     ['node_modules/next/dist/bin/next', 'build'],
     root,
-    { ...process.env, MYNEXTJS_DESKTOP: '1' }
+    desktopEnvironment()
   );
   const version = await prepareRuntime(root);
   console.log(`桌面运行时已准备：${version}`);

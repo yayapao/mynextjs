@@ -10,7 +10,12 @@ import type { UserConfig, PartialUserConfig } from './types/config';
  */
 
 /** Path to the configuration file */
-const CONFIG_PATH = path.join(process.env.MYNEXTJS_DATA_DIR || path.join(process.cwd(), 'data'), 'config.json');
+const CONFIG_PATH = path.join(
+  process.env.NEXTPIER_DATA_DIR ||
+    process.env.MYNEXTJS_DATA_DIR ||
+    path.join(process.cwd(), 'data'),
+  'config.json'
+);
 
 /** Default configuration - used when file doesn't exist or is invalid */
 const DEFAULT_CONFIG: UserConfig = {

@@ -7,33 +7,33 @@
 GitHub About 描述与 `package.json.description` 保持一致：
 
 ```text
-Next.js starter for workbench apps. Add a Wails desktop app in one command, with AnimateIcons, Cult UI, and Server Actions.
+Next.js workbench starter with AnimateIcons and Cult UI. Add a Wails desktop app or Browser Harness AI chat with one command.
 ```
 
 中文介绍：
 
 ```text
-面向工作台的 Next.js 模板，内置 AnimateIcons、Cult UI 和紧凑样式。一条命令升级 Wails 桌面应用，保留 Server Actions。
+面向工作台的 Next.js 模板，内置 AnimateIcons、Cult UI 和紧凑样式。通过 CLI 接入 Wails 桌面应用与 Browser Harness AI 对话，保留 Server Actions。
 ```
 
 Topics：
 
 ```text
-nextjs react typescript tailwindcss wails desktop-app starter-template animateicons cult-ui shadcn-ui
+nextjs react typescript tailwindcss wails desktop-app starter-template animateicons cult-ui shadcn-ui browser-harness ai-agent
 ```
 
-## 仓库更名
+## 仓库地址
 
-目前 GitHub 仓库仍使用 `yayapao/mynextjs`，文档安装命令与界面链接保持可用的地址。
+公开仓库：[yayapao/nextpier](https://github.com/yayapao/nextpier)。本地目录名为 `nextpier`，npm 包名同为 `nextpier`。
 
-在 GitHub Settings 中将 Repository name 改为 `nextpier` 后，同步 README 的两个语言版本、`docs/development.md`、`package.json.repository` 和 `lib/metadata.ts` 中的仓库地址，再更新本地 remote：
+已有 checkout 可更新 remote：
 
 ```bash
 git remote set-url origin git@github.com:yayapao/nextpier.git
 ```
 
-在 About 中填写上述描述和 Topics。README 保留中文入口，`README.en.md` 为英文入口；两者的命令保持一致。
+在 About 中填写上述描述和 Topics。README 保留中文入口，`README.en.md` 为英文入口；两者的安装命令和建项 Prompt 保持一致。
 
-更名后，桌面配置继续使用 `MYNEXTJS_*` 和 `desktop/mynextjs.json`，不迁移已有用户数据。
+新桌面工程使用 `NEXTPIER_*` 与 `desktop/nextpier.json`。旧工程兼容规则见 [桌面指南](desktop.md)。
 
 [文档目录](README.md)

@@ -2,19 +2,37 @@
 
 **Web first. Desktop next.**
 
-面向工作台的 Next.js 模板。AnimateIcons、Cult UI 和紧凑样式已就位；需要桌面时，一条命令接上 Wails，保留 Server Actions。
+面向工作台的 Next.js 模板。AnimateIcons、Cult UI 和紧凑样式已就位；Wails 桌面和 Browser Harness AI 对话，用 CLI 按需接上。
 
 [English](README.en.md) · [开发指南](docs/development.md) · [桌面指南](docs/desktop.md)
 
 ## 开工
 
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/mynextjs --use-npm
+npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm
 cd my-app
 npm run dev
 ```
 
 打开 [localhost:3900](http://localhost:3900)。直接使用此仓库，先执行 `npm install`。
+
+## 交给 Agent
+
+改掉方括号里的内容，直接发给编码 Agent：
+
+```text
+请基于 https://github.com/yayapao/nextpier 在 [目标目录] 创建 [项目名]。
+业务目标：[谁使用、要完成什么]。主要流程：[列出流程]。
+数据来源：[API、数据库或单用户本地持久化]。能力：[Web / Web+AI / Wails / Wails+AI]。
+用 create-next-app 的 --example 创建工程并安装依赖；目标目录非空时先检查已有内容。
+先读 AGENTS.md、docs/README.md、docs/ai-agent.md 和当前安装的 Next.js 文档。
+按现有组件与样式规范完成业务首页、数据读写、表单校验及加载、空、错误状态。
+需要 AI 时运行 npm run upgrade:harness；需要桌面时运行 npm run upgrade:wails 并设置应用名称和 ID。
+更新项目名称、metadata 和 README，运行 typecheck、lint、test:cli；接入 AI 后运行 test:harness。
+直接完成实现。默认不启动 dev、不构建或打包；交付时列出命令、检查结果和待验证项。
+```
+
+完整 Prompt 与具体场景见 [AI Agent 建项](docs/ai-agent.md)。
 
 ## 上桌面
 
@@ -50,6 +68,6 @@ npm run harness:doctor
 
 ## 继续读
 
-[开发指南](docs/development.md) · [组件与样式](docs/design-system.md) · [桌面指南](docs/desktop.md) · [AGENTS.md](AGENTS.md) · [GitHub 发布](docs/github.md)
+[建项 Prompt](docs/ai-agent.md) · [开发指南](docs/development.md) · [组件与样式](docs/design-system.md) · [桌面指南](docs/desktop.md) · [Browser Harness](docs/harness.md) · [AGENTS.md](AGENTS.md)
 
 组件与样式规范沿用 [Niu](https://github.com/yayapao/niu)。代码采用 [MIT](LICENSE)，Cult UI 的来源与许可证随组件保留。

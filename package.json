@@ -1,12 +1,12 @@
 {
   "name": "nextpier",
   "version": "0.1.0",
-  "description": "Next.js starter for workbench apps. Add a Wails desktop app in one command, with AnimateIcons, Cult UI, and Server Actions.",
+  "description": "Next.js workbench starter with AnimateIcons and Cult UI. Add a Wails desktop app or Browser Harness AI chat with one command.",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yayapao/mynextjs.git"
+    "url": "git+https://github.com/yayapao/nextpier.git"
   },
   "keywords": [
     "nextjs",
@@ -18,7 +18,9 @@
     "starter-template",
     "animateicons",
     "cult-ui",
-    "shadcn-ui"
+    "shadcn-ui",
+    "browser-harness",
+    "ai-agent"
   ],
   "scripts": {
     "dev": "next dev --port 3900",

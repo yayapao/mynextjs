@@ -4,13 +4,17 @@
 
 推荐 Node.js 24.9.0，与项目 Volta 配置一致；最低版本为 20.9。
 
+锁文件使用 npm 公共源，仓库不依赖内部包地址。
+
 ```bash
-npx create-next-app@latest my-app --example https://github.com/yayapao/mynextjs --use-npm
+npx create-next-app@latest my-app --example https://github.com/yayapao/nextpier --use-npm
 cd my-app
 npm run dev
 ```
 
 默认开发地址为 [localhost:3900](http://localhost:3900)。直接使用仓库时，先执行 `npm install`。
+
+交给 AI Agent 创建项目时，使用 [建项 Prompt](ai-agent.md)，填入目录、业务目标和数据来源即可。
 
 ## 常用命令
 
@@ -44,8 +48,8 @@ hooks/                通用 hooks
 lib/                  数据读取、工具、校验与 provider
 types/               共享类型
 public/               静态资源
-docs/                 开发、样式和桌面文档
-scripts/              Wails CLI、运行时收集和测试
+docs/                 建项 Prompt、开发、样式与集成文档
+scripts/              Wails 与 Harness CLI、运行时收集和测试
 templates/wails/      Wails 工程模板
 templates/harness/    Browser Harness 工程模板
 desktop/              升级后生成的桌面工程
@@ -61,7 +65,7 @@ nextpier.config.json  可选功能导航开关
 
 接入数据时，在 Server Component 里调用 `lib/` 的读取函数，再把结果传给交互组件。业务写入优先使用 Server Actions，先校验和鉴权，再写入并调用 `revalidatePath()`。React Query 留给轮询、分页和交互后的刷新。
 
-主题由 `next-themes` 管理，服务端配置写入 `data/config.json`，可通过 `MYNEXTJS_DATA_DIR` 调整目录。当前配置作用于项目或本机；多用户应用要改为按用户存储。`ExampleConfigApi` 演示接收服务端 `initialConfig` 并通过兼容 API 更新主题。
+主题由 `next-themes` 管理，服务端配置写入 `data/config.json`，可通过 `NEXTPIER_DATA_DIR` 调整目录。当前配置作用于项目或本机；多用户应用要改为按用户存储。`ExampleConfigApi` 演示接收服务端 `initialConfig` 并通过兼容 API 更新主题。
 
 开始交付前，替换这些默认项：
 

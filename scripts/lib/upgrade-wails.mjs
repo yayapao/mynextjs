@@ -9,6 +9,7 @@ import {
   writeFile,
 } from 'node:fs/promises';
 import path from 'node:path';
+import { readDesktopConfig } from './desktop-config.mjs';
 
 export async function exists(file) {
   try {
@@ -51,18 +52,15 @@ export async function upgradeWails(root, templateRoot, options = {}) {
   const identity = desktopIdentity(pkg.name, options);
   const target = path.join(root, 'desktop');
   if (await exists(target)) {
-    const markerPath = path.join(target, 'mynextjs.json');
-    if (!(await exists(markerPath)))
-      throw new Error('desktop/ 已存在，拒绝覆盖');
-    const marker = JSON.parse(await readFile(markerPath, 'utf8'));
-    if (marker.generator !== 'mynextjs' || marker.schemaVersion !== 1)
-      throw new Error('desktop/ 不是兼容的 NextPier 工程');
+    const existing = await readDesktopConfig(root);
+    if (!existing) throw new Error('desktop/ 已存在，拒绝覆盖');
+    const { config: marker, file } = existing;
     if (
       (options.name && options.name !== marker.name) ||
       (options.id && options.id !== marker.id)
     ) {
       throw new Error(
-        '应用名称或 ID 已配置；请编辑 desktop/mynextjs.json、main.go 和 wails.json'
+        `应用名称或 ID 已配置；请编辑 desktop/${file}、main.go 和 wails.json`
       );
     }
     return { ...marker, created: false };
@@ -70,10 +68,10 @@ export async function upgradeWails(root, templateRoot, options = {}) {
   const configPath = path.join(root, 'next.config.ts');
   if (
     !(await exists(configPath)) ||
-    !(await readFile(configPath, 'utf8')).includes('MYNEXTJS_DESKTOP')
+    !/(?:NEXTPIER|MYNEXTJS)_DESKTOP/.test(await readFile(configPath, 'utf8'))
   ) {
     throw new Error(
-      'next.config.ts 缺少 MYNEXTJS_DESKTOP 配置，请按 docs/desktop.md 配置后重试'
+      'next.config.ts 缺少 NEXTPIER_DESKTOP 配置，请按 docs/desktop.md 配置后重试'
     );
   }
   const scripts = Object.fromEntries(
@@ -98,7 +96,7 @@ export async function upgradeWails(root, templateRoot, options = {}) {
   const missingIgnores = ignores.filter(
     (line) => !originalIgnore?.split(/\r?\n/).includes(line)
   );
-  const temporary = await mkdtemp(path.join(root, '.mynextjs-wails-'));
+  const temporary = await mkdtemp(path.join(root, '.nextpier-wails-'));
   let installed = false;
   try {
     await cp(templateRoot, temporary, { recursive: true });
@@ -124,9 +122,13 @@ export async function upgradeWails(root, templateRoot, options = {}) {
     const icon = path.join(root, 'public', 'logo.png');
     if (await exists(icon))
       await cp(icon, path.join(temporary, 'build', 'appicon.png'));
-    const marker = { generator: 'mynextjs', schemaVersion: 1, ...identity };
+    const marker = {
+      generator: 'nextpier-wails',
+      schemaVersion: 1,
+      ...identity,
+    };
     await writeFile(
-      path.join(temporary, 'mynextjs.json'),
+      path.join(temporary, 'nextpier.json'),
       `${JSON.stringify(marker, null, 2)}\n`
     );
     await rename(temporary, target);

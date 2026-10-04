@@ -67,11 +67,21 @@ func TestServerEnvironmentUsesPersistentDataAndLoopback(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Setenv("EXAMPLE_SECRET", "environment")
+	t.Setenv("NEXTPIER_DATA_DIR", "ignored")
+	t.Setenv("MYNEXTJS_DATA_DIR", "ignored-legacy")
 	values, err := serverEnvironment(root, 12345)
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := map[string]bool{"HOSTNAME=127.0.0.1": false, "PORT=12345": false, "EXAMPLE_SECRET=environment": false, "MYNEXTJS_DATA_DIR=" + filepath.Join(root, "data"): false}
+	want := map[string]bool{
+		"HOSTNAME=127.0.0.1":         false,
+		"PORT=12345":                 false,
+		"EXAMPLE_SECRET=environment": false,
+		"NEXTPIER_DATA_DIR=" + filepath.Join(root, "data"): false,
+		"MYNEXTJS_DATA_DIR=" + filepath.Join(root, "data"): false,
+		"NEXTPIER_INTERNAL_URL=http://127.0.0.1:12345":     false,
+		"MYNEXTJS_INTERNAL_URL=http://127.0.0.1:12345":     false,
+	}
 	for _, value := range values {
 		if _, ok := want[value]; ok {
 			want[value] = true

@@ -5,13 +5,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { upgradeWails } from '../lib/upgrade-wails.mjs';
 
-const root = await mkdtemp(path.join(os.tmpdir(), 'mynextjs-go-check-'));
+const root = await mkdtemp(path.join(os.tmpdir(), 'nextpier-go-check-'));
 try {
   await writeFile(
     path.join(root, 'package.json'),
     JSON.stringify({ name: 'template-check', dependencies: { next: '16.2.1' } })
   );
-  await writeFile(path.join(root, 'next.config.ts'), '// MYNEXTJS_DESKTOP\n');
+  await writeFile(path.join(root, 'next.config.ts'), '// NEXTPIER_DESKTOP\n');
   await upgradeWails(
     root,
     fileURLToPath(new URL('../../templates/wails/', import.meta.url))

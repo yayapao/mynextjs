@@ -61,7 +61,11 @@ func (s *localServer) fail(err error) {
 }
 
 func (s *localServer) run(ctx context.Context) error {
-	if developmentURL := os.Getenv("MYNEXTJS_DEV_URL"); developmentURL != "" {
+	developmentURL := os.Getenv("NEXTPIER_DEV_URL")
+	if developmentURL == "" {
+		developmentURL = os.Getenv("MYNEXTJS_DEV_URL")
+	}
+	if developmentURL != "" {
 		target, err := url.Parse(developmentURL)
 		if err != nil || target.Scheme != "http" || target.Hostname() != "127.0.0.1" {
 			return errors.New("无效的开发服务 URL")

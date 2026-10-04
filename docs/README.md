@@ -3,6 +3,7 @@
 | 要做什么                 | 从这里开始                     |
 | ------------------------ | ------------------------------ |
 | 创建项目、接入业务       | [开发指南](development.md)     |
+| 让 AI Agent 快速建项     | [建项 Prompt](ai-agent.md)     |
 | 选组件、调整界面         | [组件与样式](design-system.md) |
 | 升级、开发或打包桌面应用 | [桌面指南](desktop.md)         |
 | 接入 AI 对话与业务工具   | [Browser Harness](harness.md)  |

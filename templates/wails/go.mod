@@ -1,4 +1,4 @@
-module mynextjs-desktop
+module nextpier-desktop
 
 go 1.25.0
 

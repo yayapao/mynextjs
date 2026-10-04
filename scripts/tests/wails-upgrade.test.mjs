@@ -25,7 +25,7 @@ const repository = fileURLToPath(new URL('../../', import.meta.url));
 const templates = path.join(repository, 'templates', 'wails');
 
 async function fixture(t) {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'mynextjs-test-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'nextpier-test-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   await writeFile(
     path.join(root, 'package.json'),
@@ -37,7 +37,7 @@ async function fixture(t) {
   );
   await writeFile(
     path.join(root, 'next.config.ts'),
-    "export default { ...(process.env.MYNEXTJS_DESKTOP === '1' ? { output: 'standalone' } : {}) };\n"
+    "export default { ...(process.env.NEXTPIER_DESKTOP === '1' ? { output: 'standalone' } : {}) };\n"
   );
   await writeFile(path.join(root, '.gitignore'), 'node_modules\n.env*\n');
   return root;
@@ -50,6 +50,16 @@ test('upgrade generates a complete Wails project and preserves existing web sett
     id: 'com.example.workbench',
   });
   assert.equal(result.created, true);
+  assert.equal(result.generator, 'nextpier-wails');
+  const marker = JSON.parse(
+    await readFile(path.join(root, 'desktop', 'nextpier.json'), 'utf8')
+  );
+  assert.equal(marker.name, '测试工作台');
+  assert.equal(marker.generator, 'nextpier-wails');
+  assert.equal(
+    await exists(path.join(root, 'desktop', 'mynextjs.json')),
+    false
+  );
   const pkg = JSON.parse(
     await readFile(path.join(root, 'package.json'), 'utf8')
   );
@@ -149,7 +159,7 @@ test('invalid app identities and missing Next config are rejected', async (t) =>
   });
   const root = await fixture(t);
   await writeFile(path.join(root, 'next.config.ts'), 'export default {};');
-  await assert.rejects(upgradeWails(root, templates), /MYNEXTJS_DESKTOP/);
+  await assert.rejects(upgradeWails(root, templates), /NEXTPIER_DESKTOP/);
   assert.equal(await exists(path.join(root, 'desktop')), false);
 });
 
